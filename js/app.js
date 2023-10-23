@@ -25,7 +25,19 @@ function agregarTweet(e) {
         return;
     }
 
-    console.log(tweet);
+    const tweetObj = {
+        id: Date.now(), // A falta de BD, utilizaremos esto como identificador único.
+        tweet: tweet
+    }
+
+    // Añadir al arreglo de Tweets
+    tweets = [...tweets, tweetObj];
+
+    // Crear el HTML para que se muestre el Tweet.
+    crearHTML();
+
+    // Reiniciar el Formulario
+    formulario.reset();
 }
 
 function mostrarError(error) {
@@ -41,4 +53,31 @@ function mostrarError(error) {
     setTimeout(() => {
         mensajeError.remove();
     }, 3000)
+}
+
+
+// Muestra un listado de los Tweets
+function crearHTML() {
+
+    limpiarHTML();
+
+    if (tweets.length > 0) {
+        tweets.forEach( tweet => {
+            // Crear el HTML
+            const li = document.createElement('li');
+
+            // Añadir Texto
+            li.innerText = tweet.tweet;
+
+            // Insertarlo en el HTML
+            listaTweets.appendChild(li);
+        });
+    }
+}
+
+// Limpiar el HTML
+function limpiarHTML() {
+    while (listaTweets.firstChild) {
+        listaTweets.removeChild(listaTweets.firstChild);
+    }
 }
